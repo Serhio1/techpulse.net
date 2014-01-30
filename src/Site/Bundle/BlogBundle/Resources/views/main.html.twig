@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>TechPulse</title>
+        {% stylesheets 'bundles/siteblog/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        
+        <script src="{{asset('bundles/siteblog/js/jquery.js')}}"></script>
+        <script src="{{asset('bundles/siteblog/js/ajaxEnginePagination.js')}}"></script>
+        <script src="{{asset('bundles/siteblog/js/ajaxEngine.js')}}"></script>
+        
+    </head>
+    <body>
+ 
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-inner">
+          <div class="container"> 
+            <a class="brand" href="{{path('homepage')}}">TechPulse</a>
+            <div class="nav-collapse">
+              <ul class="nav">
+                <li><a href="{{path('homepage')}}">Гавная</a></li>
+                <li> <a href="{{path('guestbook')}}">Гостевая книга</a></li>
+              </ul>
+              <ul>
+                <form action="">
+                  <input type="text" class="search-query pull-right" id="search" placeholder="поиск"> 
+                </form>
+              </ul>
+	    </div>
+          </div> 
+        </div>
+      </nav>
+        
+      <div class="container">  
+        <header>
+          {% image '@SiteBlogBundle/Resources/public/images/symfony_ss.png' %}
+            <img src="{{ asset_url }}" alt="img" />
+          {% endimage %}
+        </header>
+          
+          
+        <div class="row-fluid">
+          {% block main %}  
+          {% endblock main %}
+          {% block sidebar %}
+          <aside class="span3">
+            <p>Последние статьи:</p>  
+            <ul class="unstyled">  
+            {% for lastArticle in sidebarData.lastArticles %}
+              <li><a href="{{path('single_post',{'id':lastArticle.id})}}">{{lastArticle.title}}</a></li>
+            {% endfor %} 
+            </ul> 
+            <hr>
+            <p>Лучшее:</p>
+            <ul class="unstyled">  
+            {% for article in sidebarData.mostViewed %}
+              <li><a href="{{path('single_post',{'id':article.id})}}">{{article.title}}</a></li>
+            {% endfor %} 
+            </ul> 
+            <hr>
+            <p>Комментарии:</p>
+            <ul class="unstyled">  
+            {% for comment in sidebarData.guestComments %}
+              <li><a href="{{path('guestbook')}}">{{comment.text}}</a></li>
+            {% endfor %} 
+            </ul>
+          </aside>
+          {% endblock sidebar %}
+        </div> 
+         
+            
+      </div>  
+        
+      <footer>
+        <div class="container">
+          <p class="text-muted">Place sticky footer content here.</p>
+        </div>
+      </footer>    
+    
+      
+      
+      <script src="{{asset('bundles/siteblog/js/bootstrap.js')}}"></script>
+      <script src="{{asset('bundles/siteblog/js/jquery.tagsinput.js')}}"></script>
+      <script src="{{asset('bundles/siteblog/js/jqcloud.min.js')}}"></script>
+      
+      <script>
+var $myInput = $('#search');
+var text = $myInput.val();
+var timeout;
+
+
+$myInput.keyup(function(e){
+  var value = $(this).val();
+  var url;
+  if (value != text) {
+
+    text = value;
+    if(timeout) { clearTimeout(timeout); }
+    timeout = setTimeout(function() {
+
+      if(text.length>=3){url='{{path('search')}}/'+text+'/1'; code='search';}
+      else{url='{{path('homepage')}}',code='home';}
+
+          $('#main').ajaxEngine({
+                    code1:code,
+                },{
+                    url:url,
+                    individual:{
+                        code1:{     
+                        }, 
+                    }
+                });
+    },1000);
+  }
+});
+</script>
+    </body>
+    
+</html>

@@ -1,0 +1,23 @@
+{% extends "SiteBlogBundle::main.html.twig" %}
+
+{% block sidebar %}
+{% endblock sidebar %}
+
+
+{% block main %}
+{{form(form)}}
+<div id="comment-wrapper">
+{% for comment in comments %}
+<div class="comment">
+<ul class="unstyled">
+    <li class="title">{{comment.name}}</li>
+    <li class="text">{{comment.text}}</li>
+</ul>
+</div>
+{% endfor %}
+</div>
+
+
+
+{% endblock main %}
+

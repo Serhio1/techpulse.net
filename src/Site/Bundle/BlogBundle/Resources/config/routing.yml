@@ -1,0 +1,24 @@
+
+add_post:
+    pattern:  /post/new
+    defaults: { _controller: SiteBlogBundle:Blog:addPost }
+
+single_post: 
+    pattern: /post/{id}
+    defaults: { _controller: SiteBlogBundle:Blog:postById, id: 1 }
+    
+search:
+    pattern: /search/{searchStr}/{page}
+    defaults: {_controller: SiteBlogBundle:Blog:search, searchStr: '', page: 1}
+
+guestbook:
+    pattern: /guestbook/{page}
+    defaults: {_controller: SiteBlogBundle:Guestbook:index, page: 1}
+
+
+
+
+homepage:
+    pattern:  /{page}
+    defaults: { _controller: SiteBlogBundle:Blog:index, page: 1 }
+

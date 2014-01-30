@@ -1,0 +1,4 @@
+site_blog:
+    resource: "@SiteBlogBundle/Resources/config/routing.yml"
+    prefix:   /blog
+
