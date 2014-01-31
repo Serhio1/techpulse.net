@@ -5,8 +5,19 @@ body {
     background-image: url(../images/item1.jpg);
 }
 
-.main {
+main {
     background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    -moz-box-shadow:    0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    box-shadow:         0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    background: rgba(255,255,255,.9);
+    padding: 20px;
+}
+
+aside {
+    background-color: rgba(252,252,252,.7);//#fcfcfc;
     border: 1px solid #ddd;
     border-radius: 5px;
     -webkit-box-shadow: 0px 3px 7px 0px rgba(65, 180, 224, 0.74);
@@ -18,9 +29,7 @@ body {
 
 
 
-.right_sidebar {
-    background-color: #fcfcfc;
-}
+
 
 footer {
     height: 60px;
@@ -218,6 +227,17 @@ footer {
 .hidden {
     display:none;
     position:absolute;
+}
+
+.comment {
+    background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    -moz-box-shadow:    0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    box-shadow:         0px 3px 7px 0px rgba(65, 180, 224, 0.74);
+    background: rgba(255,255,255,.9);
+    padding: 20px;
 }
 //---------------------------------------------
 .preloader {

@@ -23,14 +23,22 @@ $.fn.AjEPaginator = function(params){
     
     var defaultPagParams = {koef:'150',urlMask:'/'};
     params.AjEParams.params.display_method = 'add';
+    $('body').append('<div id="ajaxEngine_page" style="display:none">2</div>');
+    var pageContainer = $('#ajaxEngine_page');
     var pagParams = mixObjects(defaultPagParams,params.pagParams);
-    var AjEParams = mixObjects(defaultAjEParams,params.AjEParams);
+    var AjEParams = {params:{}};
+    
+    
+    
+    AjEParams = mixObjects(defaultAjEParams,params.AjEParams);
+    
     var koef = pagParams.koef; 
     var target = this;
     var urlMask = pagParams.urlMask;
     var nextPage, currentPage;
-    $('body').append('<div id="ajaxEngine_page" style="display:none">1</div>');
-    var pageContainer = $('#ajaxEngine_page');
+    console.log(nextPage);
+    
+    
     var counter=1;
     var urlContainer = $('#AjEData').html()
     var AjEDataArray=[urlContainer,urlContainer];
@@ -45,7 +53,7 @@ $.fn.AjEPaginator = function(params){
             
 
             currentPage = parseInt(pageContainer.html());    
-            nextPage = currentPage;
+            nextPage = currentPage; 
             
             if(counter%2===0){
                 AjEDataArray[0] = getLastPartUrl($('#AjEData').html());
@@ -60,12 +68,12 @@ $.fn.AjEPaginator = function(params){
             
             if(AjEDataArray[0] !== AjEDataArray[1]){ 
                 if(firstTurn){
-                    if(firstRun){nextPage = 1;}
+                    if(firstRun){nextPage = 2;}
                     else nextPage = 2;
                     firstRun=false;
                     currentUrl = getUrlWithoutPage(firstUrl);
                 } else {
-                    if(firstRun){nextPage = 1;}
+                    if(firstRun){nextPage = 2;}
                     else nextPage = 2;
                     firstRun=false;
                     currentUrl = getUrlWithoutPage(zeroUrl);

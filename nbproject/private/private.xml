@@ -4,15 +4,27 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Server/htdocs/techpulse.net/web/bundles/siteblog/css/main.css</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/app/AppKernel.php</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Controller/BlogController.php</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/Post.php</file>
             <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/Default/index.html.twig</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Form/PostType.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/GuestComment.php</file>
             <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/config/routing.yml</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/PostRepository.php</file>
-            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/public/css/main.css</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Form/PostType.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/Default/single_post.html.twig</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/web/bundles/siteblog/js/ajaxEngine.js</file>
             <file>file:/D:/Server/htdocs/techpulse.net/app/config/config.yml</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/web/bundles/siteblog/js/search.js</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/Default/AjE_template.html.twig</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/app/AppKernel.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/web/bundles/siteblog/js/AjEPaginator.js</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/GuestCommentRepository.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Controller/BlogController.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/UserBundle/Entity/User.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Controller/GuestbookController.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/Post.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/Default/guestbook.html.twig</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Entity/PostRepository.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Form/GuestCommentType.php</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/app/config/routing.yml</file>
+            <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/public/css/main.css</file>
             <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/main.html.twig</file>
             <file>file:/D:/Server/htdocs/techpulse.net/src/Site/Bundle/BlogBundle/Resources/views/Default/add_post.html.twig</file>
         </group>

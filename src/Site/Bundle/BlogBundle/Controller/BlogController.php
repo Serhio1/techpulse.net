@@ -30,12 +30,13 @@ class BlogController extends Controller
 
         $request = Request::createFromGlobals();
         if ($request->isXmlHttpRequest()){
-
+            
             return $this->ajaxProcessor(array('posts'=>$posts));
         }
         
         return $this->render('SiteBlogBundle:Default:index.html.twig',array('posts'=>$posts,
-                  'sidebarData'=>$this->getSidebarData()
+                  'sidebarData'=>$this->getSidebarData(),
+                  'AjEPaginator'=>'true',
                   ));
     }
     
@@ -60,6 +61,11 @@ class BlogController extends Controller
         $post = new Post();
         $form = $this->createForm(new PostType(), $post);
         $form->handleRequest($request);
+        
+        if ($request->isXmlHttpRequest()){
+
+            return $this->ajaxProcessor(array('form'=>$form->createView()));
+        }
         if ($form->isValid()) {
             
             $post = $form->getData();
@@ -89,7 +95,8 @@ class BlogController extends Controller
         
         $request = Request::createFromGlobals();
         if ($request->isXmlHttpRequest()){
-            return $this->ajaxProcessor(array('posts'=>$posts));
+            return $this->ajaxProcessor(array('posts'=>$posts,
+                'AjEPaginator'=>'true'));
         }
         
         return $this->render('SiteBlogBundle:Default:index.html.twig',array(
@@ -138,13 +145,20 @@ class BlogController extends Controller
         $request = Request::createFromGlobals();
         $code = $request->request->get('code');
         
+        
+        
         switch ($code){
             case'home':
                 
-                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts']));
+                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts'],'AjEPaginator'=>'true'));
                 
             case'search':
-                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts']));
+                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts'],'AjEPaginator'=>'true'));
+            
+#-------------------- for AjEMenu ------------------
+            case'Action2':
+                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form']));
+#-------------------- for AjEMenu ------------------                
                 
             default: 
                 

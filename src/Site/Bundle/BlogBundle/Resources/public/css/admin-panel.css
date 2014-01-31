@@ -1,0 +1,16 @@
+#admin-panel-btn{
+    background-image: url(http://www.iconsearch.ru/ajax/download.php?icon_id=50772&size=5&format=png);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 99999;
+    position:fixed;
+    top: 20px;
+    right: 10px;
+    width: 30px; 
+    height:35px; 
+    float:right;
+    opacity: .3;
+ }
+ 
+ 
