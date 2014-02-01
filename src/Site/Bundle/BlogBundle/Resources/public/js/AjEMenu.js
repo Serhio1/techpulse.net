@@ -1,3 +1,46 @@
+/*
+ * Для использования нужен AjaxEngine
+ * 
+ * По нажатию на пункт меню делает ajax-запрос на url, 
+ * указанный в ссылке и выводит результат в указанный
+ * контейнер.
+ * 
+ * В темплейте
+ * ---------------------------------------------
+ * <ul class="menu">
+ *   <li><a href="http:\\url1">Home</a></li>
+ *   <li><a href="http:\\url2">Contacts</a></li>
+ *   <li><a href="http:\\url3">Gallery</a></li>
+ * </ul>
+ * 
+ * <div id="container"></div>
+ * 
+ * <script src="AjEMenu.js"></script>
+ * <script>$('.menu').AjEMenu($('#container'))</script>
+ * ---------------------------------------------
+ * В контроллере
+ * ---------------------------------------------
+ * $request = Request::createFromGlobals();
+ * if ($request->isXmlHttpRequest()){
+ *     $code = $request->request->get('code');
+ *     switch ($code){
+ *          case 'Home':
+ *              return new Request('This is homepage');
+ *
+ *          case 'Contacts':
+ *              return new Request('This is contacts');
+ *          
+ *          case 'Gallery':
+ *              return new Request('This is gallery');
+ *
+ *          default: 
+ *              return new Request('YOU SHALL NOT PASS');
+ *      }
+ * }
+ * ---------------------------------------------
+ * 
+ */
+
 $.fn.AjEMenu = function(target){
     var codes = {},
         params = {individual:{}},

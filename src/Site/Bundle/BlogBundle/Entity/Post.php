@@ -2,15 +2,17 @@
 
 namespace Site\Bundle\BlogBundle\Entity;
 
+use DoctrineExtensions\Taggable\Taggable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Post
- *
- * @ORM\Table()
+ * @ORM\Entity
+ * @ORM\Table(name="post")
+ * 
  * @ORM\Entity(repositoryClass="Site\Bundle\BlogBundle\Entity\PostRepository")
  */
-class Post
+class Post implements Taggable
 {
     /**
      * @var integer
@@ -20,14 +22,14 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="author", type="string", length=255)
+     * @ORM\Column(name="author_id", type="integer")
      */
-    private $author;
-
+    private $authorId;
+    
     /**
      * @var string
      *
@@ -58,10 +60,10 @@ class Post
     
     /** @ORM\Column(name="date", type="datetime") */
     private $date;
-
-
-
-
+    
+    private $tags;
+    
+    
     /**
      * Get id
      *
@@ -72,15 +74,33 @@ class Post
         return $this->id;
     }
 
+    public function getTags()
+    {
+        $this->tags = $this->tags ?: new ArrayCollection();
+
+        return $this->tags;
+    }
+
+    public function getTaggableType()
+    {
+        return 'acme_tag';
+    }
+
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }
+    
+    
     /**
      * Set author
      *
-     * @param string $author
+     * @param integer $author_id
      * @return Post
      */
-    public function setAuthor($author)
+    public function setAuthorId($authorId)
     {
-        $this->author = $author;
+        $this->authorId = $authorId;
 
         return $this;
     }
@@ -88,11 +108,11 @@ class Post
     /**
      * Get author
      *
-     * @return string 
+     * @return integer 
      */
-    public function getAuthor()
+    public function getAuthorId()
     {
-        return $this->author;
+        return $this->authorId;
     }
 
     /**
@@ -217,6 +237,4 @@ class Post
     {
         $this->date = new \DateTime();
     }
-    
-
 }

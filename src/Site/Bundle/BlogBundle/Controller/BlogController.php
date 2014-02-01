@@ -21,12 +21,18 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $this->getDoctrine()->getRepository('SiteBlogBundle:Post')->findAll();
- 
-        
-        
-        
+        $tagManager = $this->get('fpn_tag.tag_manager');
+        //return new Response('<br><br><br><br><br><br><br>works<br><br><br><br><br><br><br><br>');
+
         $posts = $this->paginate($page,$query)
                 ->getCurrentPageResults($page);
+        foreach($posts as $post){
+            $tagManager->loadTagging($post);
+            /*foreach($tag as $post->getTags()){
+                //echo $tag->getName();
+            }*/
+        }
+        
 
         $request = Request::createFromGlobals();
         if ($request->isXmlHttpRequest()){
@@ -59,30 +65,59 @@ class BlogController extends Controller
     public function addPostAction(Request $request)
     {
         $post = new Post();
+        
         $form = $this->createForm(new PostType(), $post);
         $form->handleRequest($request);
-        
-        if ($request->isXmlHttpRequest()){
+
+        /*if ($request->isXmlHttpRequest()){
 
             return $this->ajaxProcessor(array('form'=>$form->createView()));
-        }
+        }*/
+        
         if ($form->isValid()) {
+            $newPost = $form->getData();
+            $newPost->setLikes(0);
+            $newPost->setViews(0);
+            $newPost->setDateNow();
+            $tagManager = $this
+                           ->get('fpn_tag.tag_manager');
+            $tags = $form->get('tags')->getData();
+            $tags=explode(',',$tags);
             
-            $post = $form->getData();
-            $post->setLikes(0);
-            $post->setViews(0);
-            $post->setDateNow();
+            foreach ($tags as $tag){
+                $tag = $tagManager
+                        ->loadOrCreateTag($tag);
+                $tagManager->addTag($tag, $newPost);
+            }
             
-            $em->persist($post);
+            //return new Response('<br><br><br><br><br><br><br>'.print_r($tags).'ololoolo<br><br><br><br><br><br>');
+            /*$tag = $tagManager
+                        ->loadOrCreateTag($tags);
+            $tagManager->addTag($tag, $newPost);*/
+//-------------------------------------------------- 
+           /* foreach ($tags as $tag) {
+                $tag = $tagManager
+                        ->loadOrCreateTag($tag);
+                $tagManager->addTag($tag, $newPost);
+            }*/
+//--------------------------------------------------
+            
+            
+            
+            $em = $this->getDoctrine()
+                       ->getEntityManager();
+            $em->persist($newPost);
             $em->flush();
-            return $this->redirect($this->generateUrl('single_post', array(
-                    'id' => $post->getId(),
+            $tagManager->saveTagging($newPost);
+            $tagManager->loadTagging($post);
+            
+            return $this->redirect($this->generateUrl('homepage', array(
                     'sidebarData'=>$this->getSidebarData()
                     )));
         }
         
         return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$form->createView(),
-                      'sidebarData'=>$this->getSidebarData(),
+                      
                       ));
     }
     
@@ -149,7 +184,6 @@ class BlogController extends Controller
         
         switch ($code){
             case'home':
-                
                 return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts'],'AjEPaginator'=>'true'));
                 
             case'search':
@@ -157,7 +191,9 @@ class BlogController extends Controller
             
 #-------------------- for AjEMenu ------------------
             case'Action2':
-                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form']));
+                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form'],'AjEPaginator'=>'false'));
+            case'Action3':
+                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form']));    
 #-------------------- for AjEMenu ------------------                
                 
             default: 

@@ -40,14 +40,14 @@
  * 
  * 
  *         $('#admin').ajaxEngine({         //список кодов
- *                      item1:'login',      
- *                      item2:'register',
- *                      item3:'ajaxpag',
- *                      item4: ...
+ *                      code1:'login',      
+ *                      code2:'register',
+ *                      code3:'ajaxpag',
+ *                      code4: ...
  *                      },{
  *                      data:'this is ajax data', //данные, которые будут передаваться на сервер
  *                      
- *                      current:'register',      //какой код отправится первым (по умолчанию item1)
+ *                      current:'register',      //какой код отправится первым (по умолчанию code1)
  *                      
  *                      url:{{path('homepage')}}, //на какой адрес будет отсылаться запрос (по умолчанию - текущий адрес)
  *                      
@@ -58,12 +58,8 @@
  *                      prev_btn_label:'To the prev', //подпись кнопки "назад" (по умолчанию - Back)
  *                      style:'margin-left:30px'    //стиль для контейнера
  *                      next_prev_btn_mapping: 'inside', //кнопки навигации внутрь загрузившегося блока
- *                      
- *                      });
-
-
-                
-                
+ *                      nav_btns:'true'     //подобие пагинации(показывает список с ссылками на темплейты)
+ *                      });           
             
  * 
  */
@@ -116,9 +112,6 @@ var navObj={};
 
 
 
-
-
-
 for (var item in codes){
   if(codes[item]===currentCodeVal){
       currentCode = item;
@@ -140,28 +133,13 @@ paramsObj = mixObjects(defaultAjEParams,params);
 $('#AjEData').html(paramsObj.url); //------
 
 if(indParamsObj[currentCode]){
-    
     var currentIndParamsObj = indParamsObj[currentCode];
-    
-    /*for (var param in params){
-        if(!paramsObj[param] || paramsObj[param]!==params[param]){
-            if(param !== 'individual'){
-                paramsObj[param]=params[param];
-            }
-        }
-    }*/
-    
-    
-    
-    
     for (var indParam in currentIndParamsObj){
         if(!paramsObj[indParam]||paramsObj[indParam]!==currentIndParamsObj[indParam]){
             paramsObj[indParam] = currentIndParamsObj[indParam];
         }
     }
 }
-
-
 
 $('AjEData').html(paramsObj.url);
 
@@ -171,7 +149,6 @@ $.post(paramsObj.url,
         ajaxData:paramsObj.data
     },
         function(html){
-
             if(paramsObj.display_method === 'replace'){
                 target.html('<div class="'+ajaxEngineContainer+'_class" id="'+ajaxEngineContainer+'_'+currentCodeVal+'" style="'+paramsObj.style+'">'+html+'</div>');
             }
@@ -179,15 +156,8 @@ $.post(paramsObj.url,
                 $('.'+ajaxEngineContainer+'_class #ajaxEngine_next_btn_'+prevCodeVal).filter(':first').remove();               
                 target.append('<div class="'+ajaxEngineContainer+'_class" id="'+ajaxEngineContainer+'_'+currentCodeVal+'" style="'+paramsObj.style+'">'+html+'</div>');
             }
-            
-            
-            
-            
-
-
 
 if (paramsObj.nav_btns === 'true'){
-
             function objToList(obj, depth) {
             depth=depth||1;
             var str = '<ul class="depth'+depth+'">';
@@ -215,16 +185,8 @@ if (paramsObj.nav_btns === 'true'){
                     var navBtnObject = $.extend(true, {}, params);
                     navBtnObject.current=id;
                     var navBtnStr = serialize(navBtnObject);
-                    
-                    
                     str+=' onclick=\"$(\'#'+target.attr('id')+'\').ajaxEngine({'+codesStr+'},{'+navBtnStr+'})\"';
                 }
-                
-                //onclick=\"$(\'#'+target.attr('id')+'\').ajaxEngine({'+codesStr+'},{'+nextBtnStr+'})\"
-                
-                
-                
-                
                 str+=' ><a>' + html + '</a></li>';
             
                 return str;
@@ -249,25 +211,11 @@ if (paramsObj.nav_btns === 'true'){
                 params.prev_btn_label='Back';
             }
             
-            //params.next_btn_label=params.next_btn_label;
-            
         for (var item in codes){
             codesStr+=item+':\''+codes[item]+'\',';
         }      
         
-        
-        
-        
-                
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         var nextBtnObject = $.extend(true, {}, params);
         nextBtnObject.current=nextCodeVal;
         var nextBtnStr = serialize(nextBtnObject);
@@ -286,27 +234,15 @@ if (paramsObj.nav_btns === 'true'){
                 }
             }
             
-            
-        
-         
-         
-         
-
-         
-          
-          
             var backBtn = '<a id=\"ajaxEngine_back_btn_'+currentCodeVal+'\" class=\"ajaxEngine_back_btn\" onclick=\"$(\'#'+target.attr('id')+'\').ajaxEngine({'+codesStr+'},{'+prevBtnStr+'})\">'+paramsObj.prev_btn_label+'</a>';
-            
             
             var nextBtn = '<a id=\"ajaxEngine_next_btn_'+currentCodeVal+'\" class=\"ajaxEngine_next_btn\" onclick=\"$(\'#'+target.attr('id')+'\').ajaxEngine({'+codesStr+'},{'+nextBtnStr+'})\">'+paramsObj.next_btn_label+'</a>';
             
-            
-            
-            
-          
+
             if(params.nav_btns==='true'){
-            $('#'+ajaxEngineContainer+'_'+currentCodeVal).append();
-        }
+            $('#'+ajaxEngineContainer+'_'+currentCodeVal)
+            .append();
+            }
         
         
         
@@ -324,63 +260,49 @@ if (paramsObj.nav_btns === 'true'){
             if(nextCodeVal){
                 btnContainer.append(nextBtn);   
             }
-        }
-            
-            
-            
-        });
+        } 
+        
+});
+
 
          
-         
-         
-         
-         
-         
-         
-//------------------------------------------------------  
-         function serialize(obj) {
-                var str = '';
-                for (i in obj){
-                    if(typeof(obj[i])==="object"){
-                        str += i+':{'+serialize(obj[i])+'},';
-                    } else {
-                        str += (i + ': \'' + obj[i] + '\', ');
-                    }
-                }
-                return str;
-            }
+//---------------переводит объект в строку-------------  
+function serialize(obj) {
+    var str = '';
+    for (i in obj){
+        if(typeof(obj[i])==="object"){
+            str += i+':{'+serialize(obj[i])+'},';
+        } else {
+            str += (i + ': \'' + obj[i] + '\', ');
+        }
+    }
+    
+    return str;
+}
 //------------------------------------------------------
 //если есть индивидуальные параметры, то делаем их основными
-
-
-
-           function individualParamsIncluding(obj,indDepth) {
-                var str = '';
-                indDepth=indDepth||1;
-                for (i in obj){
-                    if(typeof(obj[i])==="object"){
-                        
-                        indDepth=indDepth+1;
-                        indParamsObj[i] = obj[i];
-                        if(indDepth>1){
-                            str += i+':{'+individualParamsIncluding(obj[i],indDepth)+'},';
-                            
-                        }
-                        
-                        
-                    } else {
-                        if(indDepth>1){
-                            str += i+':{'+obj[i]+'},';
-                            //obj[i] = 'trololo';
-                            indParamsObj[i] = obj[i];
-                        }
-                    }
-                }
-                return obj;
+function individualParamsIncluding(obj,indDepth) {
+    var str = '';
+    indDepth=indDepth||1;
+    for (i in obj){
+        if(typeof(obj[i])==="object"){
+            indDepth=indDepth+1;
+            indParamsObj[i] = obj[i];
+            if(indDepth>1){
+                str += i+':{'+individualParamsIncluding(obj[i],indDepth)+'},';              
+            }          
+        } else {
+            if(indDepth>1){
+                str += i+':{'+obj[i]+'},';
+                indParamsObj[i] = obj[i];
             }
-
-        
+        }
+    }
     
+    return obj;
+}
+
+
 };
                             
 /*

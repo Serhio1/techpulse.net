@@ -1,10 +1,8 @@
-header { background-color: #000;
-         border-radius: 5px;
-         margin: 85px auto 15px;
-}
+header { background-color: #000; 
+         margin: 85px auto 15px}
 
 body {
-    background-image: url(http://365psd.ru/images/backgrounds/bg-light-4858.png);//url(../images/item1.jpg);
+    background-image: url(../images/item1.jpg);
 }
 
 main {
@@ -240,10 +238,6 @@ footer {
     box-shadow:         0px 3px 7px 0px rgba(65, 180, 224, 0.74);
     background: rgba(255,255,255,.9);
     padding: 20px;
-}
-
-#search {
-    margin-top: 5px;
 }
 //---------------------------------------------
 .preloader {

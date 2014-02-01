@@ -1,0 +1,95 @@
+/*start reset*/
+body, div, dl, dt,dd, ul,ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, hr, td {
+margin:0; padding:0;
+}	
+table {
+	border-collapse:collapse; border-spacing:0;
+}
+fieldset, img {
+	border:0;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style:normal; font-weight:normal;
+}
+ol, ul {
+	list-style:none;
+}
+caption, th {
+	text-align:left;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size:100%; font-weight:normal;
+}
+q:before, q:after {
+	content:'';
+}
+abbr, acronum {
+	border:0;
+}
+/*end reset*/
+
+html, body {
+	height:100%;
+	font:normal 12px/18px Arial, san-serif;
+}
+
+
+.carousel_wrap  {
+margin: 50px auto;
+width:700px;
+height:400px;
+position:relative;
+}
+.visual_block {
+margin: 0 auto;
+height:100%;
+position: relative;
+overflow: hidden;
+}
+.visual_block ul {
+position: relative;
+}
+.visual_block ul, .visual_block li {
+height:100%;
+float: left;
+position: relative;
+}
+.visual_block li {
+width:640px;
+}
+
+.carousel_wrap span.next, .carousel_wrap span.prev {
+margin-top:-20px;
+width:15px;
+height:26px;
+display:block;
+text-indent:-9999px;
+overflow:hidden;
+cursor:pointer;
+background:url(slider2_arrow.png) no-repeat;
+position:absolute;
+top:50%;
+}
+.carousel_wrap span.next {
+right:0;
+background-position:-15px 0;
+}
+.carousel_wrap span.next:hover {
+background-position:-15px -26px;
+}
+.carousel_wrap span.prev:hover {
+background-position:0 -26px;
+}
+
+.text {
+padding:20px 10px;
+width:97%;
+font-size:14px;
+color:#ff0000;
+position:absolute;
+bottom:0;
+left:0;
+background-color:#ccc;
+opacity:0.7;
+filter: alpha(opacity=70);
+}

@@ -1,8 +1,9 @@
-
-
-
-
+<form action="{{path('add_post')}}">
 {{form(form)}}
+</form>
 
 
-
+<script src="{{asset('bundles/siteblog/js/jquery.tagsinput.js')}}"></script>
+<script>
+    $('#site_bundle_blogbundle_post_tags').tagsInput();
+</script>

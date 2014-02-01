@@ -113,3 +113,8 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Site\Bundle\UserBundle\Entity\User
+
+fpn_tag:
+    model:
+        tag_class:     Site\Bundle\BlogBundle\Entity\Tag
+        tagging_class: Site\Bundle\BlogBundle\Entity\Tagging
