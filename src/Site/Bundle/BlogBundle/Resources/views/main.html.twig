@@ -8,10 +8,7 @@
         {% endstylesheets %}
         
         <script src="{{asset('bundles/siteblog/js/jquery.js')}}"></script>
-        
-        
-        
-        
+
         <script src="{{asset('bundles/ajeajaxprocessor/js/ajaxEngine.js')}}"></script>
         <script src="{{asset('bundles/ajeajaxprocessor/js/AjEPaginator.js')}}"></script>
         <script src="{{asset('bundles/ajeajaxprocessor/js/AjEMenu.js')}}"></script>
@@ -53,18 +50,22 @@
     <span class="next">next</span>		
     <div class="visual_block">
       <ul>
+        {% for key,post in mostViewedHead %}
+          
+        
         <li>
             <img src="http://www.osp.ru/FileStorage/ARTICLE/Nir_PK/2013-02/03_13/13137344/Nir_PK_z_(5316).jpg" alt="img" />  
-          <div class="slider_text">Подпись к фото 1</div>
+            <div class="slider_text">{{mostViewedHead[0].title}}</div>
         </li>
         <li>
             <img src="http://www.osp.ru/FileStorage/ARTICLE/Nir_PK/2011-12/01_12/13117512/Nir_PK_11_(3361).jpg" alt="img" />
-          <div class="slider_text">Подпись к фото 2</div>
+            <div class="slider_text">{{mostViewedHead[1].title}}</div>
         </li>
         <li>
             <img src="http://smartwebsite.ru/_nw/1/07848632.jpg" alt="img" />
-          <div class="slider_text">Подпись к фото 3</div>
+            <div class="slider_text">{{mostViewedHead[2].title}}</div>
         </li>
+        {% endfor %}
       </ul>
     </div>		
   </div>
@@ -79,6 +80,9 @@
             <main class="main-wrapper span9">
             </main>
             {% endblock main %}
+            
+            
+            
             
           {% block sidebar %}
             {% include 'SiteBlogBundle:Default:sidebar.html.twig' %}

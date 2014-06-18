@@ -27,11 +27,34 @@ class BlogController extends Controller
                  ->getCurrentPageResults($page);
         $template = $this->container->get('aje')->handleAjax();
         
+        $sidebarData = $this->getSidebarData();
+        
+        for ($i=0; $i<4; $i++) {
+            $mostViewedHead[$i] = $sidebarData['mostViewed'][$i];
+        }
+
+        
+        
+        /*$postsText = array();
+        $images = array();
+        foreach ($posts as $post) {
+
+            $images[$post->getTitle()] = $post->getText();
+            $imgPos = strripos($post->getText(), '<img src="');
+            $imgSrcEnd = strripos($post->getText(), '">', $imgPos+10);
+            $imgSrc = substr($post->getText(),$imgPos+10,$imgSrcEnd);
+           // echo '<img src="'.$imgSrc;
+            //$imgSrc = $imgPos
+        }*/
+        
+        
         $this->getTags($posts);
         $this->template=($template)?$template:$this->template;
         
-        return $this->render($this->template,array('posts'=>$posts,
-                  'sidebarData'=>$this->getSidebarData(),
+        return $this->render($this->template,array(
+            'posts'=>$posts,
+            'sidebarData'=>$sidebarData,
+            'mostViewedHead'=>$mostViewedHead
         ));
     }
     
