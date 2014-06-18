@@ -16,34 +16,23 @@ use Pagerfanta\Adapter\ArrayAdapter;
 
 class BlogController extends Controller
 {
+    protected $template = 'SiteBlogBundle:Default:index.html.twig';
+
     
     public function indexAction($page)
     {
-        $em = $this->getDoctrine()->getManager();
-        $query = $this->getDoctrine()->getRepository('SiteBlogBundle:Post')->findAll();
-        $tagManager = $this->get('fpn_tag.tag_manager');
-        //return new Response('<br><br><br><br><br><br><br>works<br><br><br><br><br><br><br><br>');
-
+        $query = $this->getDoctrine()->getRepository('SiteBlogBundle:Post')
+                ->findAllQuery();
         $posts = $this->paginate($page,$query)
-                ->getCurrentPageResults($page);
-        foreach($posts as $post){
-            $tagManager->loadTagging($post);
-            /*foreach($tag as $post->getTags()){
-                //echo $tag->getName();
-            }*/
-        }
+                 ->getCurrentPageResults($page);
+        $template = $this->container->get('aje')->handleAjax();
         
-
-        $request = Request::createFromGlobals();
-        if ($request->isXmlHttpRequest()){
-            
-            return $this->ajaxProcessor(array('posts'=>$posts));
-        }
+        $this->getTags($posts);
+        $this->template=($template)?$template:$this->template;
         
-        return $this->render('SiteBlogBundle:Default:index.html.twig',array('posts'=>$posts,
+        return $this->render($this->template,array('posts'=>$posts,
                   'sidebarData'=>$this->getSidebarData(),
-                  'AjEPaginator'=>'true',
-                  ));
+        ));
     }
     
     
@@ -54,100 +43,71 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($post);
         $em->flush();
-        
+        $template = $this->container->get('aje')->handleAjax();
+        $this->template=($template)?$template:$this->template;
+        $this->getTags(array($post));
+
         return $this->render('SiteBlogBundle:Default:single_post.html.twig',array(
             'post'=>$post,
             'sidebarData'=>$this->getSidebarData()
-             ));
+        ));
     }
     
     
     public function addPostAction(Request $request)
     {
         $post = new Post();
-        
         $form = $this->createForm(new PostType(), $post);
         $form->handleRequest($request);
-
-        /*if ($request->isXmlHttpRequest()){
-
-            return $this->ajaxProcessor(array('form'=>$form->createView()));
-        }*/
-        
+        $template = $this->container->get('aje')->handleAjax();
+        $this->template=($template)?$template:$this->template;
         if ($form->isValid()) {
             $newPost = $form->getData();
-            $newPost->setLikes(0);
-            $newPost->setViews(0);
-            $newPost->setDateNow();
             $tagManager = $this
                            ->get('fpn_tag.tag_manager');
             $tags = $form->get('tags')->getData();
-            $tags=explode(',',$tags);
-            
-            foreach ($tags as $tag){
-                $tag = $tagManager
-                        ->loadOrCreateTag($tag);
-                $tagManager->addTag($tag, $newPost);
-            }
-            
-            //return new Response('<br><br><br><br><br><br><br>'.print_r($tags).'ololoolo<br><br><br><br><br><br>');
-            /*$tag = $tagManager
-                        ->loadOrCreateTag($tags);
-            $tagManager->addTag($tag, $newPost);*/
-//-------------------------------------------------- 
-           /* foreach ($tags as $tag) {
-                $tag = $tagManager
-                        ->loadOrCreateTag($tag);
-                $tagManager->addTag($tag, $newPost);
-            }*/
-//--------------------------------------------------
-            
-            
-            
+            $newPost = $this->tagsProcessor($tags, $newPost);
             $em = $this->getDoctrine()
                        ->getEntityManager();
             $em->persist($newPost);
             $em->flush();
             $tagManager->saveTagging($newPost);
-            $tagManager->loadTagging($post);
             
-            return $this->redirect($this->generateUrl('homepage', array(
-                    'sidebarData'=>$this->getSidebarData()
-                    )));
+            return $this->redirect($this->generateUrl('homepage'));
         }
         
-        return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$form->createView(),
-                      
-                      ));
+        return $this->render($this->template,array(
+            'form'=>$form->createView(),
+            'sidebarData'=>$this->getSidebarData(),
+        ));
     }
     
     
-    function searchAction($searchStr=Null, $page)
+    public function searchAction($searchStr=Null, $page)
     {
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('SiteBlogBundle:Post')->search($searchStr);
         $posts = $this->paginate($page,$query);
+        $template = $this->container->get('aje')->handleAjax();
+        $this->template=($template)?$template:$this->template;
         
-        $request = Request::createFromGlobals();
-        if ($request->isXmlHttpRequest()){
-            return $this->ajaxProcessor(array('posts'=>$posts,
-                'AjEPaginator'=>'true'));
-        }
-        
-        return $this->render('SiteBlogBundle:Default:index.html.twig',array(
-                'posts'=>$posts,
-                'sidebarData'=>$this->getSidebarData(),
-                ));
+        return $this->render($this->template,array(
+            'posts'=>$posts,
+            'sidebarData'=>$this->getSidebarData(),
+        ));
     }
     
 //---------------------------------------------------    
     
-    function getSidebarData()
+    public function getSidebarData()
     {
         $em = $this->getDoctrine()->getManager();
-        $lastArticles = $em->getRepository('SiteBlogBundle:Post')->getLastArticles();
-        $mostViewed = $em->getRepository('SiteBlogBundle:Post')->getMostViewed();
-        $lastGuestComments = $em->getRepository('SiteBlogBundle:GuestComment')->getLastComments();
+        $lastArticles = $em->getRepository('SiteBlogBundle:Post')
+                ->getLastArticles();
+        $mostViewed = $em->getRepository('SiteBlogBundle:Post')
+                ->getMostViewed();
+        $lastGuestComments = $em->getRepository('SiteBlogBundle:GuestComment')
+                ->getLastComments();
         
         return array(
             'lastArticles'=>$lastArticles,
@@ -156,12 +116,12 @@ class BlogController extends Controller
         );
     }
     
-    function paginate($page, $query)
+    private function paginate($page, $query)
     {
         $em = $this->getDoctrine()->getManager();
         $adapter = new DoctrineORMAdapter($query);
         $pager = new Pagerfanta($adapter);
-        $pager->setMaxPerPage(10);
+        $pager->setMaxPerPage($this->container->getParameter('posts_per_page'));
         $pager->setCurrentPage($page);
         try {
             $posts = $pager->getCurrentPageResults($page);
@@ -173,34 +133,25 @@ class BlogController extends Controller
         return $pager;
     }
     
-//------------------------------------------------
-    
-    public function ajaxProcessor($data)
+    private function tagsProcessor($tags, $newPost)
     {
-        $request = Request::createFromGlobals();
-        $code = $request->request->get('code');
+        $tagManager = $this->get('fpn_tag.tag_manager');
+        $tags=explode(',',$tags);
         
+        foreach ($tags as $tag){
+            $tag = $tagManager->loadOrCreateTag($tag);
+            $tagManager->addTag($tag, $newPost);
+        }
         
-        
-        switch ($code){
-            case'home':
-                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts'],'AjEPaginator'=>'true'));
-                
-            case'search':
-                return $this->render('SiteBlogBundle:Default:AjE_template.html.twig',array('posts'=>$data['posts'],'AjEPaginator'=>'true'));
-            
-#-------------------- for AjEMenu ------------------
-            case'Action2':
-                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form'],'AjEPaginator'=>'false'));
-            case'Action3':
-                return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$data['form']));    
-#-------------------- for AjEMenu ------------------                
-                
-            default: 
-                
-                return $this->render('SiteBlogBundle:Default:not_found.html.twig');
-            }
+        return $newPost;
+    } 
+    
+    protected function getTags($posts)
+    {
+        $tagManager = $this->get('fpn_tag.tag_manager');
+        foreach($posts as $post){
+            $tagManager->loadTagging($post);
+        }
     }
-    
-    
+
 }

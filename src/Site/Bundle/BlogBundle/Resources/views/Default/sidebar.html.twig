@@ -1,0 +1,25 @@
+<aside class="aside-wrapper span3">  
+    <div class="indicator AjEPanelIndicator2"></div>  
+        <div class="AjEPanel2">
+            <p>Последние статьи:</p>  
+            <ul class="unstyled">  
+            {% for lastArticle in sidebarData.lastArticles %}
+               <li><a href="{{path('single_post',{'id':lastArticle.id})}}">{{lastArticle.title|slice(0,20)}}...</a></li>
+            {% endfor %} 
+            </ul> 
+            <hr>
+            <p>Лучшее:</p>
+            <ul class="unstyled">  
+            {% for article in sidebarData.mostViewed %}
+                <li><a href="{{path('single_post',{'id':article.id})}}">{{article.title|slice(0,20)}}...</a></li>
+            {% endfor %} 
+            </ul> 
+            <hr>
+            <p>Комментарии:</p>
+            <ul class="unstyled">  
+            {% for comment in sidebarData.guestComments %}
+                <li><a href="{{path('guestbook')}}">{{comment.text|slice(0,20)}}...</a></li>
+            {% endfor %} 
+            </ul>
+      </div>
+</aside> 

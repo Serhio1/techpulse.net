@@ -9,12 +9,30 @@
       {% endfor %}
     </ul>
   </li>
-  <li class="title"><a href="{{path('single_post',{'id':post.id})}}"><h3>{{post.title}}</h3></a></li>
-  <li class="text">{{post.text}}</li>
+  <li class="title"><a href="{{path('single_post',{'id':post.id})}}" id="post{{post.id}}" ><h3>{{post.title}}</h3></a></li>
+  <li class="text">{{post.text|slice(0,300)}} ...</li>
 </ul>
 <hr>
 {% endfor %}
 </div>
+
+<script>
+    jQuery(function(){
+      $('a','.title').click(function(e){ 
+        var clicked = $(e.target);
+        e.preventDefault();
+        $(clicked).parent().parent().parent().ajaxEngine({code1:'single_post'},{url:clicked.parent().attr('href'),inner:'true'});
+        return;   
+      });
+    });
+</script>
+
+
+
+
+
+
+
 
 
 

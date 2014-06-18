@@ -1,0 +1,10 @@
+parameters:
+#    aj_e_ajax_processor.example.class: AjE\Bundle\AjaxProcessorBundle\Example
+    aje_ajax_processor.class: AjE\Bundle\AjaxProcessorBundle\Controller\AjEController
+
+services:
+    aje:
+        class: %aje_ajax_processor.class%
+#    aj_e_ajax_processor.example:
+#        class: %aj_e_ajax_processor.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

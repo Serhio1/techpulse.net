@@ -1,5 +1,5 @@
 header { background-color: #000; 
-         }
+         margin: 85px auto 15px}
 
 body {
     background-image: url(../images/item1.jpg);
@@ -243,4 +243,4 @@ footer {
 .preloader {
    content:url(preloader.gif);
 }
-//---------------------------------------------
+//-------------------------------------

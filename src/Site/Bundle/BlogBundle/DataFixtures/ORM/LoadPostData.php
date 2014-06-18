@@ -9,7 +9,7 @@ use Site\Bundle\BlogBundle\Entity\Post,
     Symfony\Component\Yaml\Yaml,
     Doctrine\Common\Collections\ArrayCollection;
 
-class LoadPostData extends AbstracctFixture implements FixtureInterface
+class LoadPostData extends AbstractFixture implements FixtureInterface
 {
     /**
     * Load data fixtures with the passed EntityManager
@@ -19,6 +19,8 @@ class LoadPostData extends AbstracctFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $posts = Yaml::parse($this->getYmlFile());
+        
+        print_r($posts);
 
         foreach ($posts['posts'] as $post) {
             $postObject = new Post();
@@ -30,9 +32,11 @@ class LoadPostData extends AbstracctFixture implements FixtureInterface
             $postObject->setViews(0);
             $postObject->setDate(new \DateTime('now'));
 
-            foreach ($post['categories'] as $reference) {
-                $postObject->addCategory($this->getReference($reference));
-            }
+            //foreach ($post['categories'] as $reference) {
+                //$postObject->addCategory($this->getReferencesFromArray($post['categories']));
+            //}
+            
+           // $this->setTags($post['categories']);
 
             $manager->persist($postObject);
         }
@@ -52,17 +56,6 @@ class LoadPostData extends AbstracctFixture implements FixtureInterface
 
     protected function getYmlFile()
     {
-        return __DIR__ . '/Data/article.yml';
-    }
-
-    protected function getReferencesFromArray(array $array)
-    {
-        $outputReferences = new ArrayCollection();
-
-        foreach ($array as $reference) {
-            $outputReferences->add($this->getReference($reference));
-        }
-
-        return $outputReferences;
+        return __DIR__ . '/Data/posts.yml';
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="post")
+ * @ORM\HasLifecycleCallbacks
  * 
  * @ORM\Entity(repositoryClass="Site\Bundle\BlogBundle\Entity\PostRepository")
  */
@@ -233,8 +234,10 @@ class Post implements Taggable
     /**
     * @ORM\PrePersist
     */
-    public function setDateNow()
+    public function prePersist()
     {
         $this->date = new \DateTime();
+        $this->views = 0;
+        $this->likes = 0;
     }
 }

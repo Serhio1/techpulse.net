@@ -1,0 +1,27 @@
+#admin-panel-btn{
+    background-image: url(http://www.iconsearch.ru/ajax/download.php?icon_id=50772&size=5&format=png);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 99999;
+    position:fixed;
+    top: 20px;
+    right: 10px;
+    width: 30px; 
+    height:35px; 
+    float:right;
+    opacity: .3;
+ }
+ 
+ #admin-panel {
+     background: #000;
+     z-index: 99999;
+     position:fixed;
+     top: 80px;
+     right: 10px;
+     width: 250px; 
+     height:500px;
+     display: none;
+     border-radius: 5px;
+     opacity: .8;
+ }

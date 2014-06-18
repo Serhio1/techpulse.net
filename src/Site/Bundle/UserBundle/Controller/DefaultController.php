@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function loginAction()
     {
-        return $this->render('SiteUserBundle:Default:index.html.twig', array('name' => $name));
+        return $this->redirect($this->generateUrl('login'));
+        //return $this->redirect($controller);//$this->render('FOSUserBundle:Security:login.html.twig');
     }
 }

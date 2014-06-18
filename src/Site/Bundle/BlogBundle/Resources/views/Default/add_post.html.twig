@@ -1,9 +1,10 @@
-<form action="{{path('add_post')}}">
-{{form(form)}}
+
+<form method="POST" action="{{path('add_post')}}">
+  {{form(form)}}
 </form>
 
-
 <script src="{{asset('bundles/siteblog/js/jquery.tagsinput.js')}}"></script>
+<script src="{{asset('bundles/siteblog/js/ckeditor/ckeditor.js')}}"></script>
 <script>
     $('#site_bundle_blogbundle_post_tags').tagsInput();
 </script>

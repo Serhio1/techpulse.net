@@ -13,20 +13,28 @@ use Site\Bundle\BlogBundle\Form\GuestCommentType;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/*
- * TODO ajax pagination
- */
+
 
 class GuestbookController extends Controller
 {
+    protected $template = 'SiteBlogBundle:Default:guestbook.html.twig';
+    
     public function indexAction($page, Request $request)
     {
         $query = $this->getDoctrine()->getRepository('SiteBlogBundle:GuestComment')->findAll();
         $comments = $this->paginate($page,$query);
         
         $comment = new GuestComment();
-        $form = $this->createForm(new GuestCommentType(), $comment);
+        $form = $this->createForm(new GuestCommentType(), $comment, array(
+            'action' => $this->generateUrl('guestbook'),
+        ));
         $form->handleRequest($request);
+        
+       
+        
+        $template = $this->container->get('aje')->handleAjax();
+        $this->template=($template)?$template:$this->template;
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $comment = $form->getData();
@@ -35,20 +43,21 @@ class GuestbookController extends Controller
             $em->persist($comment);
             $em->flush();
             
+            return $this->forward('SiteBlogBundle:Blog:index', array('page'=>1));
         }
-        
-        return $this->render('SiteBlogBundle:Default:guestbook.html.twig',array('comments'=>$comments,
-                          'form'=>$form->createView(),
-                          ));
+
+        return $this->render($this->template,array('comments'=>$comments,
+            'form'=>$form->createView(),
+        ));
     }
     
     public function addCommentAction()
     {
         
         
-        return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$form->createView(),
+        /*return $this->render('SiteBlogBundle:Default:add_post.html.twig',array('form'=>$form->createView(),
                       'sidebarData'=>$this->getSidebarData(),
-                      ));
+                      ));*/
     }
     
 

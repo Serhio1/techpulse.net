@@ -1,0 +1,3 @@
+aj_e_ajax_processor_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AjEAjaxProcessorBundle:Default:index }

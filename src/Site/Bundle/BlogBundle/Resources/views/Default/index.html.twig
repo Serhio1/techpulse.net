@@ -1,14 +1,38 @@
 {% extends "SiteBlogBundle::main.html.twig" %}
 
-{% block main %}
-
-<main id="main" class="span9">
-
-</main>    
-
-
-{% endblock main %}
 
 
 
 
+{% block scripts %}
+<script>
+$(function(){
+    $('main').attr('id','main');
+    $('#main').AjEPaginator().init();
+        /*$('#main').AjEPaginator({
+                   AjEParams:{
+                       codes:{code1:'home'},
+                       params:{url:'/blog'}
+                   }
+                        
+                   });*/
+
+        
+      $('a','.AjEPanel2').click(function(e){ 
+        var clicked = $(e.target);
+        e.preventDefault();
+        $('#main').ajaxEngine({code1:'single_post'},{url:clicked.attr('href'),inner:'true'});
+        return;   
+      });
+    });
+        
+        
+    
+</script>
+
+<script>
+$('document').ready(function(){ 
+    $('main').ajaxEngine({code1:'Главная'});
+});                   
+</script>
+{% endblock scripts %}

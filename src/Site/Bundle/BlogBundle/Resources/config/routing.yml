@@ -15,10 +15,11 @@ guestbook:
     pattern: /guestbook/{page}
     defaults: {_controller: SiteBlogBundle:Guestbook:index, page: 1}
 
-
-
-
 homepage:
     pattern:  /{page}
     defaults: { _controller: SiteBlogBundle:Blog:index, page: 1 }
+    
+login:
+    pattern:  /login/
+    defaults: { _controller: FOSUserBundle:Security:login }
 

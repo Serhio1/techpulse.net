@@ -1,0 +1,86 @@
+
+
+
+.carousel_wrap ol,.carousel_wrap ul {
+	list-style:none;
+}
+
+
+
+abbr, acronum {
+	border:0;
+}
+/*end reset*/
+
+html, body {
+	height:100%;
+}
+
+
+.carousel_wrap  {
+margin: 50px auto;
+width:700px;
+height:400px;
+position:relative;
+}
+.visual_block {
+margin: 0 auto;
+height:100%;
+position: relative;
+overflow: hidden;
+}
+.visual_block ul {
+position: relative;
+}
+.visual_block ul, .visual_block li {
+height:100%;
+float: left;
+position: relative;
+margin: 0 auto;
+
+}
+.visual_block li {
+width:640px;
+margin: 0 auto;
+}
+.visual_block ul li img {
+    width: 100%;
+    height: auto;
+}
+
+.carousel_wrap span.next, .carousel_wrap span.prev {
+margin-top:-20px;
+width:15px;
+height:26px;
+display:block;
+text-indent:-9999px;
+overflow:hidden;
+cursor:pointer;
+background:url(../../bundles/siteblog/images/slider2_arrow.png) no-repeat;
+position:absolute;
+top:50%;
+}
+.carousel_wrap span.next {
+right:0;
+background-position:-15px 0;
+}
+.carousel_wrap span.next:hover {
+background-position:-15px -26px;
+}
+.carousel_wrap span.prev:hover {
+background-position:0 -26px;
+}
+
+.slider_text {
+padding:20px 10px;
+width:97%;
+font-size:14px;
+color:#000;
+text-shadow: #fff 0 0 3px;
+position:absolute;
+bottom:0;
+left:0;
+background-color:#ccc;
+opacity:0.7;
+filter: alpha(opacity=70);
+}

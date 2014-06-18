@@ -92,6 +92,10 @@ stof_doctrine_extensions:
             sluggable: true
             timestampable: true # not needed: listeners are not enabled by default
 
+services:
+    ajax_processor:
+        class: AjE\Bundle\AjaxProcessorBundle
+
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
     default_options:
@@ -118,3 +122,4 @@ fpn_tag:
     model:
         tag_class:     Site\Bundle\BlogBundle\Entity\Tag
         tagging_class: Site\Bundle\BlogBundle\Entity\Tagging
+
